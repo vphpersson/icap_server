@@ -50,4 +50,4 @@ GET https://news.ycombinator.com/grayarrow.gif HTTP/1.1
 
 :thumbsup:
 
-(Note the error message on the last row! It was produced by my ECS log handler from my [ecs_tools_py](https://github.com/vphpersson/ecs_tools_py) library, which is used in this project!)
+(Note the error message on the last row! It was produced by a log handler from my [ecs_tools_py](https://github.com/vphpersson/ecs_tools_py) library, which is used in this project!)

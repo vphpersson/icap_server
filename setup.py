@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='icap_server',
-    version='0.1',
+    version='0.11',
     packages=find_packages(),
     install_requires=[
         'ecs_tools_py @ git+https://github.com/vphpersson/ecs_tools_py.git#egg=ecs_tools_py',

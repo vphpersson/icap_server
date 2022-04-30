@@ -16,7 +16,7 @@ class ICAPResponseBody:
 
     def __bytes__(self) -> bytes:
         return (
-                ((self.header + b'\r\n') if self.header else b'') + (self.body or b'')
+            ((self.header + b'\r\n') if self.header else b'') + (self.body or b'')
         )
 
     def make_encapsulated_header(self, body_entity_name: Optional[bytes] = None, header_entity_name: Optional[bytes] = None) -> bytes:

@@ -56,9 +56,9 @@ async def main() -> NoReturn:
     from ecs_tools_py.system import LOG as ECS_TOOLS_PY_SYSTEM_LOG
 
     ICAP_SERVER_LOG.setLevel(level=ERROR)
-    ICAP_SERVER_LOG.addHandler(hdlr=make_log_handler(StreamHandler)(stream=stderr))
+    ICAP_SERVER_LOG.addHandler(hdlr=make_log_handler(base_class=StreamHandler)(stream=stderr))
     ECS_TOOLS_PY_SYSTEM_LOG.setLevel(level=ERROR)
-    ECS_TOOLS_PY_SYSTEM_LOG.addHandler(hdlr=make_log_handler(StreamHandler)(stream=stderr))
+    ECS_TOOLS_PY_SYSTEM_LOG.addHandler(hdlr=make_log_handler(base_class=StreamHandler)(stream=stderr))
 
     LOG.setLevel(level=INFO)
     LOG.addHandler(hdlr=StreamHandler(stream=stdout))

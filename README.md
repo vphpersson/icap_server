@@ -51,3 +51,7 @@ GET https://news.ycombinator.com/grayarrow.gif HTTP/1.1
 :thumbsup:
 
 (Note the error message on the last row! It was produced by a log handler from my [ecs_tools_py](https://github.com/vphpersson/ecs_tools_py) library, which is used in this project!)
+
+## References
+
+- [RFC 3507 - Internet Content Adaptation Protocol (ICAP)](https://datatracker.ietf.org/doc/html/rfc3507)

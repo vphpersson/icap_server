@@ -28,7 +28,7 @@ async def service_handler(icap_request: ICAPRequest) -> ContentAdaptationRespons
     :return: Information about the content adaptation performed.
     """
 
-    icap_response_headers: dict[bytes, list[bytes]] = defaultdict(list)
+    icap_response_headers: defaultdict[bytes, list[bytes]] = defaultdict(list)
 
     if request_header := icap_request.body.request_header:
         LOG.info(request_header.split(sep=b'\n', maxsplit=1)[0].rstrip().decode())

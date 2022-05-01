@@ -1,9 +1,20 @@
 from parsing_error import ParsingError
 from abc import ABC
+from typing import Any
 
 
 class MalformedICAPRequestError(ParsingError, ABC):
     pass
+
+
+class MalformedICAPRequestLine(MalformedICAPRequestError):
+    def __init__(self, observed_request_line: bytes):
+        super().__init__(
+            message_header='The observed request line is malformed.',
+            observed_value=observed_request_line,
+            expected_label='Expected a line in the format',
+            expected_value='"Method SP ICAP_URI SP ICAP-Version CRLF"'
+        )
 
 
 class MissingEncapsulatedHeaderError(MalformedICAPRequestError):
@@ -15,13 +26,15 @@ class MissingEncapsulatedHeaderError(MalformedICAPRequestError):
         )
 
 
-class MultipleEncapsulatedHeadersError(MalformedICAPRequestError):
-    def __init__(self, observed_num_headers: int):
+class MultipleHeadersError(MalformedICAPRequestError):
+    def __init__(self, observed_num_headers: int, header_name: bytes):
         super().__init__(
-            message_header='Multiple "Encapsulated" headers were observed in the request.',
+            message_header=f'Multiple "{header_name}" headers were observed in the request.',
             observed_value=observed_num_headers,
             expected_value=1
         )
+
+        self.header_name: bytes = header_name
 
 
 class BadEncapsulatedEntityNameError(ParsingError):
@@ -77,4 +90,22 @@ class BadICAPMethodError(ParsingError):
             observed_value=observed_icap_method,
             expected_label='Expected any of',
             expected_value=expected_icap_methods
+        )
+
+
+class UnexpectedCase(ParsingError):
+    def __init__(self, observed_case: Any, expected_cases: Any):
+        super().__init__(
+            message_header='Unexpected case.',
+            observed_value=observed_case,
+            expected_label='Expected any of',
+            expected_value=str(expected_cases)
+        )
+
+
+class HeaderValueButMissingHeaderEntityNameError(Exception):
+    def __init__(self):
+        super().__init__(
+            'An ICAP response body is requested for creation with a header value but no header entity name has '
+            'been provided'
         )

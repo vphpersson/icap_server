@@ -9,6 +9,7 @@ from icap_server.structures.icap_response_body import ICAPResponseBody
 from icap_server.structures.icap_method import ICAPMethod
 from icap_server.structures.encapsulated_data import EncapsulatedData
 from icap_server.structures.encapsulated_entity_name import EncapsulatedEntityName
+from icap_server.exceptions import UnexpectedCase
 
 
 @dataclass
@@ -79,7 +80,7 @@ class ICAPResponse:
                         encapsulated_body=encapsulated_data.options_body
                     )
                 case _:
-                    raise ValueError(...)
+                    raise UnexpectedCase(observed_case=method, expected_cases=list(ICAPMethod))
         else:
             body_entity_name = None
             header_entity_name = None

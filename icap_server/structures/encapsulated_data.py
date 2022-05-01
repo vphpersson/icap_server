@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Optional, Iterable
 
 from icap_server.structures.encapsulated_entity_name import EncapsulatedEntityName
+from icap_server.exceptions import UnexpectedCase
 
 
 @dataclass
@@ -31,6 +32,6 @@ class EncapsulatedData:
                 case EncapsulatedEntityName.OPTBODY:
                     kwargs['options_body'] = value
                 case _:
-                    raise ValueError(...)
+                    raise UnexpectedCase(observed_case=key, expected_cases=list(EncapsulatedEntityName))
 
         return cls(**kwargs)

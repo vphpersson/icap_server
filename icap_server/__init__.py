@@ -1,22 +1,23 @@
-from asyncio import start_server, StreamReader, StreamWriter, run as asyncio_run
-from typing import Optional, Awaitable, Callable, Any
+from asyncio import start_server, StreamReader, StreamWriter
+from typing import Optional, Awaitable, Callable, Any, Final
 from functools import partial
 from contextlib import asynccontextmanager
-from logging import getLogger
+from logging import getLogger, Logger
 
 from icap_server.structures.icap_request import ICAPRequest
 from icap_server.structures.encapsulated_data import EncapsulatedData
 from icap_server.structures.icap_response import ICAPResponse
 from icap_server.structures.icap_method import ICAPMethod
 from icap_server.structures.content_adaptation_response import ContentAdaptationResponse
+from icap_server.exceptions import MultipleHeadersError
 
-LOG = getLogger(__name__)
+LOG: Final[Logger] = getLogger(__name__)
 
 
 def check_if_connection_close(connection_header_values: Optional[list[bytes]]) -> bool:
     if connection_header_values is not None:
-        if len(connection_header_values) != 1:
-            raise ValueError(...)
+        if (num_headers_observed := len(connection_header_values)) != 1:
+            raise MultipleHeadersError(observed_num_headers=num_headers_observed, header_name=b'Connection')
 
         if next(iter(connection_header_values)) == 'close':
             return True

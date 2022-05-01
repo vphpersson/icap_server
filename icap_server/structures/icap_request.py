@@ -9,7 +9,7 @@ from icap_server.structures.icap_request_line import ICAPRequestLine
 from icap_server.structures.encapsulated_data import EncapsulatedData
 from icap_server.structures.encapsulated_entity_name import EncapsulatedEntityName
 from icap_server.structures.icap_method import ICAPMethod
-from icap_server.exceptions import MissingEncapsulatedHeaderError, MultipleEncapsulatedHeadersError, \
+from icap_server.exceptions import MissingEncapsulatedHeaderError, MultipleHeadersError, \
     BadEncapsulatedEntityNameError, DuplicateEncapsulatedEntityNamesError, EncapsulatedEntityOffsetIsNotIntegerError, \
     NegativeEncapsulatedEntityOffsetError, NonIncreasingEncapsulatedEntityOffsetError
 
@@ -40,7 +40,7 @@ class ICAPRequest:
             return {}
 
         if (num_headers_observed := len(encapsulated_header_values)) != 1:
-            raise MultipleEncapsulatedHeadersError(observed_num_headers=num_headers_observed)
+            raise MultipleHeadersError(observed_num_headers=num_headers_observed, header_name=b'Encapsulated')
 
         encapsulated_header_value: bytes = next(iter(encapsulated_header_values))
         name_to_offset: dict[EncapsulatedEntityName, int] = {}

@@ -2,6 +2,7 @@ from dataclasses import dataclass, InitVar
 from typing import Optional
 
 from icap_server.structures.encapsulated_entity_name import EncapsulatedEntityName
+from icap_server.exceptions import HeaderValueButMissingHeaderEntityNameError
 
 
 @dataclass
@@ -24,7 +25,7 @@ class ICAPResponseBody:
 
         if self.header:
             if header_entity_name is None:
-                raise ValueError(...)
+                raise HeaderValueButMissingHeaderEntityNameError
 
             return header_entity_name + b'=0, ' + body_entity_name + b'=' + str(len(self.header)).encode()
         else:

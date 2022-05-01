@@ -5,7 +5,7 @@ from typing import ClassVar
 from re import Pattern as RePattern, compile as re_compile
 
 from icap_server.structures.icap_method import ICAPMethod
-from icap_server.exceptions import BadICAPMethodError
+from icap_server.exceptions import BadICAPMethodError, MalformedICAPRequestLine
 
 
 @dataclass
@@ -34,7 +34,7 @@ class ICAPRequestLine:
     def from_bytes(cls, data: bytes) -> ICAPRequestLine:
 
         if (match := cls._REQUEST_LINE_PATTERN.match(string=data.rstrip())) is None:
-            raise ValueError(f'Malformed request line: {data}')
+            raise MalformedICAPRequestLine(observed_request_line=data)
         else:
             group_dict = match.groupdict()
             method_bytes: bytes = group_dict['method']
